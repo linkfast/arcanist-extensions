@@ -16,6 +16,14 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 ID = re.compile(r"^[a-z0-9][a-z0-9-]{1,63}$")
 SEMVER = re.compile(r"^\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z.-]+)?$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+PRICING = ("open-source", "free", "paid", "freemium")
+# Open source licenses an extension published as open source may use (SPDX ids).
+OPEN_LICENSES = {
+    "MIT", "MIT-0", "ISC", "0BSD", "Unlicense", "BSD-2-Clause", "BSD-3-Clause", "Apache-2.0", "MPL-2.0", "Zlib",
+    "LGPL-2.1-or-later", "LGPL-3.0-only", "LGPL-3.0-or-later", "GPL-3.0-only", "GPL-3.0-or-later",
+    "AGPL-3.0-only", "AGPL-3.0-or-later",
+}
+LICENSE_REF = re.compile(r"^LicenseRef-[A-Za-z0-9.-]{1,64}$")
 LOGIN = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$")
 ICON_TYPES = (".svg", ".png", ".webp")
 MAX_ICON = 256 * 1024
@@ -44,6 +52,17 @@ def check(download):
                 fail(errors, where, f"{field} is required")
         if not isinstance(entry.get("official"), bool):
             fail(errors, where, "official must be true or false")
+        pricing = entry.get("pricing")
+        if pricing not in PRICING:
+            fail(errors, where, f"pricing must be one of {', '.join(PRICING)}")
+        license_id = entry.get("license")
+        if pricing == "open-source" and license_id not in OPEN_LICENSES:
+            fail(errors, where, "license: open source extensions need an open source license (SPDX id)")
+        elif license_id is not None and license_id not in OPEN_LICENSES and not LICENSE_REF.match(str(license_id)):
+            fail(errors, where, "license: an SPDX id, or LicenseRef-<name> for a license of its own")
+        pricing_url = entry.get("pricingUrl")
+        if pricing_url is not None and not str(pricing_url).startswith("https://"):
+            fail(errors, where, "pricingUrl: https only")
         maintainers = entry.get("maintainers")
         if maintainers is not None and (not isinstance(maintainers, list) or not maintainers
                                         or not all(isinstance(m, str) and LOGIN.match(m) for m in maintainers)):

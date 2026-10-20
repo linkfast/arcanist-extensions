@@ -6,9 +6,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        Extensions run inside Arcanist with full trust, so a new one is **reviewed by the catalog's maintainers** before
-        it is listed. When you submit this form, an automation downloads your package, checks it, and opens a pull
-        request with the entry; you can edit this issue to fix anything it reports, and it runs again.
+        Open source, free, freemium or paid: all can be listed. Extensions run inside Arcanist with full trust, so a
+        new one is **reviewed by the catalog's maintainers** before it is listed. When you submit this form, an
+        automation downloads your package, checks it, and opens a pull request with the entry; you can edit this
+        issue to fix anything it reports, and it runs again.
 
         The extension's id, name, version and license come from the `arcanist-extension.json` in your package. You
         become its maintainer: you can then publish versions and change its entry yourself, with no review.
@@ -22,6 +23,27 @@ body:
       placeholder: https://github.com/owner/repo/releases/download/v1.0.0/my-extension-1.0.0.zip
     validations:
       required: true
+  - type: dropdown
+    id: pricing
+    attributes:
+      label: Pricing
+      description: >-
+        How it is offered. Paid and freemium extensions sell themselves: the purchase is yours to handle, in the
+        extension or on your site; the marketplace only shows the model and a link to your prices.
+      options:
+        - Open source
+        - Free
+        - Freemium
+        - Paid
+    validations:
+      required: true
+  - type: input
+    id: pricing-page
+    attributes:
+      label: Pricing page
+      description: Optional, an https page with its prices or where to buy it.
+    validations:
+      required: false
   - type: textarea
     id: description
     attributes:
@@ -69,9 +91,9 @@ body:
     attributes:
       label: Before submitting
       options:
-        - label: The package is built from the public source in that repository.
+        - label: If it is open source, the package is built from the public source in that repository.
           required: true
-        - label: Its license lets Arcanist's users run it alongside an AGPL-3.0 server.
+        - label: Its license lets Arcanist's users run it alongside an AGPL-3.0 server (see the README).
           required: true
         - label: It does not collect or send its users' data without telling them in its description.
           required: true

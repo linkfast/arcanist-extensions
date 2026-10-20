@@ -1,5 +1,5 @@
 name: Change an extension's entry
-description: Change the description, icon, categories or maintainers of an extension you maintain.
+description: Change the description, icon, categories, pricing or maintainers of an extension you maintain.
 title: "Change an extension's entry"
 labels: ["submission", "submission:update"]
 body:
@@ -53,6 +53,24 @@ body:
     attributes:
       label: Homepage
       description: An https URL.
+    validations:
+      required: false
+  - type: dropdown
+    id: pricing
+    attributes:
+      label: Pricing
+      options:
+        - Open source
+        - Free
+        - Freemium
+        - Paid
+    validations:
+      required: false
+  - type: input
+    id: pricing-page
+    attributes:
+      label: Pricing page
+      description: An https page with its prices or where to buy it.
     validations:
       required: false
   - type: input

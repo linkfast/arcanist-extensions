@@ -27,18 +27,13 @@ import urllib.request
 import zipfile
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from validate import ID, LOGIN, MAX_ICON, MAX_PACKAGE, ROOT, SEMVER, check  # noqa: E402
+from validate import ID, LICENSE_REF, LOGIN, MAX_ICON, MAX_PACKAGE, OPEN_LICENSES, ROOT, SEMVER, check  # noqa: E402
 
 INDEX = ROOT / "index.json"
 PACKAGE_URL = re.compile(
     r"^https://github\.com/(?P<owner>[A-Za-z0-9-]{1,39})/(?P<repo>[A-Za-z0-9._-]{1,100})/releases/download/[^/\s]+/[^/\s]+\.zip$")
 CATEGORY = re.compile(r"^[a-z0-9][a-z0-9-]{0,31}$")
-# Licenses that let users run the extension alongside an AGPL-3.0 server (SPDX ids).
-LICENSES = {
-    "MIT", "MIT-0", "ISC", "0BSD", "Unlicense", "BSD-2-Clause", "BSD-3-Clause", "Apache-2.0", "MPL-2.0", "Zlib",
-    "LGPL-2.1-or-later", "LGPL-3.0-only", "LGPL-3.0-or-later", "GPL-3.0-only", "GPL-3.0-or-later",
-    "AGPL-3.0-only", "AGPL-3.0-or-later",
-}
+PRICING_LABELS = {"Open source": "open-source", "Free": "free", "Paid": "paid", "Freemium": "freemium"}
 NO_RESPONSE = "_No response_"
 
 
@@ -174,6 +169,18 @@ def categories(value):
     return list(dict.fromkeys(items))
 
 
+def pricing(value):
+    if value not in PRICING_LABELS:
+        raise Problem(f"**Pricing** must be one of: {', '.join(PRICING_LABELS)}.")
+    return PRICING_LABELS[value]
+
+
+def pricing_url(value):
+    if not value.startswith("https://"):
+        raise Problem("**Pricing page** must be an https URL.")
+    return value
+
+
 def logins(value):
     items = [m.strip().lstrip("@") for m in value.split(",") if m.strip()]
     if not items or len(items) > 10 or any(not LOGIN.match(m) for m in items):
@@ -218,9 +225,13 @@ def new_extension(index, fields, login):
     extension_id = manifest["id"]
     if any(e["id"] == extension_id for e in index["extensions"]):
         raise Problem(f"`{extension_id}` is already in the catalog: to publish a new version, use **Publish a version**.")
+    model = pricing(field(fields, "Pricing", required=True, limit=20))
     license_id = manifest.get("license")
-    if license_id not in LICENSES:
-        raise Problem(f"The manifest's `license` ({license_id or 'none'}) must be one of: {', '.join(sorted(LICENSES))}.")
+    if model == "open-source" and license_id not in OPEN_LICENSES:
+        raise Problem(f"An open source extension needs an open source `license` in its manifest (one of: "
+                      f"{', '.join(sorted(OPEN_LICENSES))}); it has {license_id or 'none'}.")
+    if license_id not in OPEN_LICENSES and not LICENSE_REF.match(str(license_id or "")):
+        raise Problem("The manifest's `license` must be an SPDX id, or `LicenseRef-<name>` for a license of your own.")
     description = field(fields, "Description", limit=500) or str(manifest.get("description") or "").strip()
     if not description:
         raise Problem("**Description** is required (the manifest has none).")
@@ -234,6 +245,7 @@ def new_extension(index, fields, login):
         "homepage": found["homepage"],
         "license": license_id,
         "official": False,
+        "pricing": model,
         "maintainers": [login],
         "releases": [release],
     }
@@ -245,12 +257,14 @@ def new_extension(index, fields, login):
         entry["icon"] = icon(url, extension_id)
     if value := field(fields, "Categories", limit=200):
         entry["categories"] = categories(value)
+    if value := field(fields, "Pricing page", limit=500):
+        entry["pricingUrl"] = pricing_url(value)
     index["extensions"].append(entry)
     index["extensions"].sort(key=lambda e: e["id"])
     return extension_id, f"Add {entry['name']} ({extension_id}) {release['version']}", False, [
         f"Adds **{entry['name']}** (`{extension_id}`) {release['version']}, by {entry['author']}, maintained by @{login}.",
         f"- Package: {release['url']} ({release['size']:,} bytes, SHA-256 `{release['sha256']}`)",
-        f"- License: {license_id}; source: {found['homepage']}",
+        f"- {next(k for k, v in PRICING_LABELS.items() if v == model)}, license {license_id}; repository: {found['homepage']}",
         "",
         "A maintainer of the catalog reviews it (the source, what it does on the server) and merges the pull request.",
     ]
@@ -301,6 +315,12 @@ def update(index, fields, login):
     if value := field(fields, "Maintainers", limit=500):
         entry["maintainers"] = logins(value)
         changes.append("maintainers")
+    if value := field(fields, "Pricing", limit=20):
+        entry["pricing"] = pricing(value)
+        changes.append("pricing")
+    if value := field(fields, "Pricing page", limit=500):
+        entry["pricingUrl"] = pricing_url(value)
+        changes.append("pricing page")
     if not changes:
         raise Problem("Nothing to change: fill in at least one field.")
     return entry["id"], f"Change {entry['name']}: {', '.join(changes)}", may_manage(entry, login), [
