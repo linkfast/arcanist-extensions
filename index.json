@@ -17,6 +17,13 @@
       "categories": ["import", "youtube"],
       "releases": [
         {
+          "version": "0.2.0-alpha.1",
+          "url": "https://github.com/linkfast/arcanist-youtube/releases/download/v0.2.0-alpha.1/arcanist-youtube-0.2.0-alpha.1.zip",
+          "sha256": "5fd3fda96cd198eb423df9c700e5ecf762e38a8df92fae7d0136e64b1ec99aa4",
+          "size": 137981,
+          "minServerVersion": "0.1.0-alpha.2"
+        },
+        {
           "version": "0.1.0-alpha.1",
           "url": "https://github.com/linkfast/arcanist-youtube/releases/download/v0.1.0-alpha.1/arcanist-youtube-0.1.0-alpha.1.zip",
           "sha256": "3542ac2f76d34101558018607aec06c9a43d25f5c35080d35959324f5a28b2fe",
