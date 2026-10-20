@@ -1,0 +1,95 @@
+name: Submissions
+
+# Issues opened with the forms in .github/ISSUE_TEMPLATE become changes of the catalog (scripts/submission.py):
+# the package is downloaded and checked, and a pull request is opened with the change. When the issue's author
+# maintains that extension (or this repository), the pull request is merged right away; new extensions, and changes
+# asked by anyone else, wait for a maintainer of the catalog to review and merge them. Editing the issue runs it again;
+# closing it closes its pull request.
+#
+# The issue's text never reaches a shell: it goes to the script as an environment variable.
+
+on:
+  issues:
+    types: [opened, edited, reopened, closed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: submission-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    if: >-
+      github.event.action != 'closed'
+      && github.event.issue.state == 'open'
+      && contains(join(github.event.issue.labels.*.name, ' '), 'submission:')
+      && github.event.issue.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      NUMBER: ${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - id: submission
+        env:
+          ISSUE: ${{ toJSON(github.event.issue) }}
+          REPOSITORY: ${{ github.repository }}
+        run: python scripts/submission.py
+      - name: Pull request
+        if: steps.submission.outputs.ok == 'true'
+        env:
+          BRANCH: ${{ steps.submission.outputs.branch }}
+          TITLE: ${{ steps.submission.outputs.title }}
+          AUTO: ${{ steps.submission.outputs.auto }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add index.json icons
+          if git diff --cached --quiet; then
+            echo "Nothing changed." >> submission-result.md
+            exit 0
+          fi
+          git commit -q -m "$TITLE" -m "Closes #$NUMBER"
+          git push --force origin "$BRANCH"
+          pr="$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')"
+          if [ -z "$pr" ]; then
+            gh pr create --head "$BRANCH" --title "$TITLE" --body-file submission-pr.md
+          else
+            gh pr edit "$pr" --title "$TITLE" --body-file submission-pr.md
+          fi
+          if [ "$AUTO" = true ]; then
+            gh pr merge "$BRANCH" --squash --delete-branch
+            gh issue close "$NUMBER" --reason completed || true
+          fi
+      - name: Report on the issue
+        if: always()
+        env:
+          OK: ${{ steps.submission.outputs.ok }}
+        run: |
+          [ -f submission-result.md ] || echo "The automation failed: a maintainer of the catalog will look at it." > submission-result.md
+          gh issue comment "$NUMBER" --edit-last --body-file submission-result.md 2>/dev/null \
+            || gh issue comment "$NUMBER" --body-file submission-result.md
+          if [ "$OK" = true ]; then
+            gh issue edit "$NUMBER" --remove-label invalid >/dev/null 2>&1 || true
+          else
+            gh issue edit "$NUMBER" --add-label invalid
+          fi
+
+  closed:
+    if: github.event.action == 'closed' && contains(join(github.event.issue.labels.*.name, ' '), 'submission:')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BRANCH: submission/${{ github.event.issue.number }}
+    steps:
+      - run: |
+          pr="$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$BRANCH" --state open --json number --jq '.[0].number')"
+          [ -z "$pr" ] || gh pr close "$pr" --repo "$GITHUB_REPOSITORY" --delete-branch --comment "Its issue was closed."

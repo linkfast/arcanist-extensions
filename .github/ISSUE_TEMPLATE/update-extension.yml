@@ -1,0 +1,64 @@
+name: Change an extension's entry
+description: Change the description, icon, categories or maintainers of an extension you maintain.
+title: "Change an extension's entry"
+labels: ["submission", "submission:update"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill in only what changes; empty fields stay as they are. Changes from one of the extension's maintainers are
+        applied right away; others open a pull request for review.
+  - type: input
+    id: extension
+    attributes:
+      label: Extension id
+      placeholder: my-extension
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: In English.
+    validations:
+      required: false
+  - type: input
+    id: name-es
+    attributes:
+      label: Name in Spanish
+    validations:
+      required: false
+  - type: textarea
+    id: description-es
+    attributes:
+      label: Description in Spanish
+    validations:
+      required: false
+  - type: input
+    id: icon
+    attributes:
+      label: Icon URL
+      description: A square `.svg`, `.png` or `.webp` of up to 256 KB, over https.
+    validations:
+      required: false
+  - type: input
+    id: categories
+    attributes:
+      label: Categories
+      description: Separated by commas (up to 5); they replace the current ones.
+    validations:
+      required: false
+  - type: input
+    id: homepage
+    attributes:
+      label: Homepage
+      description: An https URL.
+    validations:
+      required: false
+  - type: input
+    id: maintainers
+    attributes:
+      label: Maintainers
+      description: GitHub users, separated by commas; they replace the current ones (keep yourself to stay one).
+    validations:
+      required: false

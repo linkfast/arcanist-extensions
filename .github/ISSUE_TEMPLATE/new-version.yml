@@ -1,0 +1,34 @@
+name: Publish a version
+description: Add a new version of an extension you maintain.
+title: "Publish a version"
+labels: ["submission", "submission:version"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For maintainers of an extension already in the catalog. The automation downloads the package, checks that it
+        is the extension and version it says, and **publishes it right away** when you are one of its maintainers.
+        Otherwise it opens a pull request for review.
+  - type: input
+    id: extension
+    attributes:
+      label: Extension id
+      description: The `id` in its `arcanist-extension.json`.
+      placeholder: my-extension
+    validations:
+      required: true
+  - type: input
+    id: package
+    attributes:
+      label: Package URL
+      description: The new version's `.zip`, attached to a release of the extension's GitHub repository.
+      placeholder: https://github.com/owner/repo/releases/download/v1.1.0/my-extension-1.1.0.zip
+    validations:
+      required: true
+  - type: input
+    id: min-server
+    attributes:
+      label: Oldest Arcanist version it runs on
+      description: Optional, such as `0.1.0-alpha.2`. Servers older than this keep the previous version.
+    validations:
+      required: false

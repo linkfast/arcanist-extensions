@@ -4,31 +4,32 @@
     {
       "id": "youtube",
       "name": "YouTube Audio",
-      "names": { "es": "Audio de YouTube" },
+      "names": {
+        "es": "Audio de YouTube"
+      },
       "description": "Brings the audio of YouTube videos, playlists, channels and YouTube Music albums into your libraries, with yt-dlp.",
       "descriptions": {
         "es": "Trae a tus bibliotecas el audio de vídeos, listas, canales y álbumes de YouTube y YouTube Music, con yt-dlp."
       },
-      "author": "LinkFast S.A.",
-      "homepage": "https://github.com/linkfast/arcanist-youtube",
+      "author": "gchiappe",
+      "homepage": "https://github.com/gchiappe/arcanist-youtube",
       "license": "AGPL-3.0-or-later",
       "icon": "icons/youtube.svg",
-      "official": true,
-      "categories": ["import", "youtube"],
+      "official": false,
+      "maintainers": [
+        "gchiappe"
+      ],
+      "categories": [
+        "import",
+        "youtube"
+      ],
       "releases": [
         {
-          "version": "0.2.0-alpha.1",
-          "url": "https://github.com/linkfast/arcanist-youtube/releases/download/v0.2.0-alpha.1/arcanist-youtube-0.2.0-alpha.1.zip",
-          "sha256": "5fd3fda96cd198eb423df9c700e5ecf762e38a8df92fae7d0136e64b1ec99aa4",
-          "size": 137981,
+          "version": "0.2.0-alpha.2",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.2.0-alpha.2/arcanist-youtube-0.2.0-alpha.2.zip",
+          "sha256": "589d75254b560d57bf5c4dfb6abdd56311c386a8ce91dde3f0f67fa38095cac5",
+          "size": 137964,
           "minServerVersion": "0.1.0-alpha.2"
-        },
-        {
-          "version": "0.1.0-alpha.1",
-          "url": "https://github.com/linkfast/arcanist-youtube/releases/download/v0.1.0-alpha.1/arcanist-youtube-0.1.0-alpha.1.zip",
-          "sha256": "3542ac2f76d34101558018607aec06c9a43d25f5c35080d35959324f5a28b2fe",
-          "size": 127365,
-          "minServerVersion": "0.1.0-alpha.1"
         }
       ]
     }

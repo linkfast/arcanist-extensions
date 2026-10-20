@@ -21,11 +21,12 @@ A server administrator can point Arcanist at another catalog with `Arcanist:Mark
       "names": { "es": "Audio de YouTube" }, // optional, by language
       "description": "…",
       "descriptions": { "es": "…" },         // optional
-      "author": "LinkFast S.A.",
+      "author": "gchiappe",
       "homepage": "https://…",               // optional
       "license": "AGPL-3.0-or-later",        // optional, SPDX
       "icon": "icons/youtube.svg",           // optional: a file here (.svg, .png or .webp, up to 256 KB)
-      "official": true,                      // made by the Arcanist project
+      "official": false,                     // true only for those made by the Arcanist project
+      "maintainers": ["gchiappe"],           // GitHub users who publish its versions (see below)
       "categories": ["import"],              // optional
       "releases": [
         {
@@ -44,17 +45,30 @@ A server administrator can point Arcanist at another catalog with `Arcanist:Mark
 Arcanist installs the newest release whose `minServerVersion` it meets; older releases stay listed so servers that
 have not been updated still get one that runs.
 
-## Proposing an extension
+## Proposing and managing extensions
 
-Extensions run inside the server with full trust, so every entry is reviewed before it is merged.
+Everything goes through an issue: open one with a form (**New issue**) and an automation
+([`submissions.yml`](.github/workflows/submissions.yml)) downloads the package, checks it and opens a pull request
+with the change. Edit the issue to fix what it reports and it runs again; closing it closes its pull request.
 
-1. Publish the extension's `.zip` as a release of a public repository, with its source (see
+| Form | Who | What happens |
+|---|---|---|
+| **Add an extension** | anyone | A pull request that a maintainer of the catalog reviews and merges. You become the extension's maintainer. |
+| **Publish a version** | its maintainers | Published right away (others: reviewed). |
+| **Change an extension's entry** | its maintainers | Description, names, icon, categories, homepage or maintainers, right away (others: reviewed). |
+| **Remove an extension or a version** | its maintainers | Right away (anyone else, to report a problem: reviewed). |
+
+Before proposing one:
+
+1. Publish the extension's `.zip` as a release of its **public GitHub repository**, built from that source (see
    [docs/developers/extensions.md](https://github.com/linkfast/arcanist/blob/main/docs/developers/extensions.md)).
-   Its license must let Arcanist's users run it alongside an AGPL-3.0 server.
-2. Open a pull request that adds its entry (with `"official": false`) and its icon under `icons/`.
-3. `python scripts/validate.py --download` checks the entry and the package; the pull request runs it too.
+   Its id, name, version and license come from the `arcanist-extension.json` inside it.
+2. Its license must let Arcanist's users run it alongside an AGPL-3.0 server (MIT, BSD, Apache-2.0, MPL-2.0, LGPL,
+   GPL-3.0, AGPL-3.0…).
+3. Extensions run inside the server with full trust: say in its description what it does with users' data.
 
-A new version is a pull request that adds a release at the top of its `releases`.
+Pull requests are still welcome too (with `"official": false`); `python scripts/validate.py --download` checks them.
+The forms and the automation can be tried locally: `ISSUE="$(cat issue.json)" python scripts/submission.py`.
 
 ## License
 

@@ -16,6 +16,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 ID = re.compile(r"^[a-z0-9][a-z0-9-]{1,63}$")
 SEMVER = re.compile(r"^\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z.-]+)?$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+LOGIN = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$")
 ICON_TYPES = (".svg", ".png", ".webp")
 MAX_ICON = 256 * 1024
 MAX_PACKAGE = 250 * 1024 * 1024
@@ -43,6 +44,10 @@ def check(download):
                 fail(errors, where, f"{field} is required")
         if not isinstance(entry.get("official"), bool):
             fail(errors, where, "official must be true or false")
+        maintainers = entry.get("maintainers")
+        if maintainers is not None and (not isinstance(maintainers, list) or not maintainers
+                                        or not all(isinstance(m, str) and LOGIN.match(m) for m in maintainers)):
+            fail(errors, where, "maintainers: a list of GitHub users")
         icon = entry.get("icon")
         if icon is not None:
             if icon.startswith("http"):

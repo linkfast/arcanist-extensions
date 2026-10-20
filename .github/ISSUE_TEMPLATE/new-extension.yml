@@ -1,0 +1,77 @@
+name: Add an extension
+description: Propose a new extension for Arcanist's marketplace.
+title: "Add an extension"
+labels: ["submission", "submission:new"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Extensions run inside Arcanist with full trust, so a new one is **reviewed by the catalog's maintainers** before
+        it is listed. When you submit this form, an automation downloads your package, checks it, and opens a pull
+        request with the entry; you can edit this issue to fix anything it reports, and it runs again.
+
+        The extension's id, name, version and license come from the `arcanist-extension.json` in your package. You
+        become its maintainer: you can then publish versions and change its entry yourself, with no review.
+  - type: input
+    id: package
+    attributes:
+      label: Package URL
+      description: >-
+        The extension's `.zip`, attached to a release of its public GitHub repository, such as
+        `https://github.com/<owner>/<repo>/releases/download/v1.0.0/my-extension-1.0.0.zip`.
+      placeholder: https://github.com/owner/repo/releases/download/v1.0.0/my-extension-1.0.0.zip
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: One or two sentences in English. Empty uses the description in its manifest.
+    validations:
+      required: false
+  - type: input
+    id: name-es
+    attributes:
+      label: Name in Spanish
+      description: Optional.
+    validations:
+      required: false
+  - type: textarea
+    id: description-es
+    attributes:
+      label: Description in Spanish
+      description: Optional.
+    validations:
+      required: false
+  - type: input
+    id: icon
+    attributes:
+      label: Icon URL
+      description: Optional. A square `.svg`, `.png` or `.webp` of up to 256 KB, over https (it is copied into this repository).
+    validations:
+      required: false
+  - type: input
+    id: categories
+    attributes:
+      label: Categories
+      description: Optional, separated by commas (up to 5), such as `import, lyrics`.
+    validations:
+      required: false
+  - type: input
+    id: min-server
+    attributes:
+      label: Oldest Arcanist version it runs on
+      description: Optional, such as `0.1.0-alpha.2`. Servers older than this do not see this version.
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Before submitting
+      options:
+        - label: The package is built from the public source in that repository.
+          required: true
+        - label: Its license lets Arcanist's users run it alongside an AGPL-3.0 server.
+          required: true
+        - label: It does not collect or send its users' data without telling them in its description.
+          required: true
