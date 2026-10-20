@@ -1,0 +1,29 @@
+{
+  "format": 1,
+  "extensions": [
+    {
+      "id": "youtube",
+      "name": "YouTube Audio",
+      "names": { "es": "Audio de YouTube" },
+      "description": "Brings the audio of YouTube videos, playlists, channels and YouTube Music albums into your libraries, with yt-dlp.",
+      "descriptions": {
+        "es": "Trae a tus bibliotecas el audio de vídeos, listas, canales y álbumes de YouTube y YouTube Music, con yt-dlp."
+      },
+      "author": "LinkFast S.A.",
+      "homepage": "https://github.com/linkfast/arcanist-youtube",
+      "license": "AGPL-3.0-or-later",
+      "icon": "icons/youtube.svg",
+      "official": true,
+      "categories": ["import", "youtube"],
+      "releases": [
+        {
+          "version": "0.1.0-alpha.1",
+          "url": "https://github.com/linkfast/arcanist-youtube/releases/download/v0.1.0-alpha.1/arcanist-youtube-0.1.0-alpha.1.zip",
+          "sha256": "3542ac2f76d34101558018607aec06c9a43d25f5c35080d35959324f5a28b2fe",
+          "size": 127365,
+          "minServerVersion": "0.1.0-alpha.1"
+        }
+      ]
+    }
+  ]
+}
