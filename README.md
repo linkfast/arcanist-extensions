@@ -1,9 +1,10 @@
 # Arcanist extensions
 
-The catalog of [Arcanist](https://github.com/linkfast/arcanist) extensions: what the **Marketplace** in Arcanist's
-admin panel (Extensions) lists and installs with one click.
+The catalog of [Arcanist](https://github.com/linkfast/arcanist) extensions and web players: what the **Marketplace**
+in Arcanist's admin panel (Extensions) lists and installs with one click. Web players (Ultimate Web Player, and those
+anyone makes) are listed the same way as extensions, in `players`.
 
-Arcanist reads [`index.json`](index.json) from this repository (at most once an hour), shows each extension in the
+Arcanist reads [`index.json`](index.json) from this repository (at most once an hour), shows each entry in the
 newest version it can run, and installs it after checking the downloaded package against the SHA-256 listed here.
 Icons are read through the Arcanist server, so the people using it never reach GitHub for them.
 
@@ -40,6 +41,10 @@ A server administrator can point Arcanist at another catalog with `Arcanist:Mark
         }
       ]
     }
+  ],
+  "players": [
+    // Web players, with the same fields; their packages hold arcanist-frontend.json
+    // (see docs/developers/frontends.md). An id is unique in the whole catalog.
   ]
 }
 ```
@@ -75,7 +80,7 @@ with the change. Edit the issue to fix what it reports and it runs again; closin
 
 | Form | Who | What happens |
 |---|---|---|
-| **Add an extension** | anyone | A pull request that a maintainer of the catalog reviews and merges. You become the extension's maintainer. |
+| **Add an extension** / **Add a web player** | anyone | A pull request that a maintainer of the catalog reviews and merges. You become its maintainer. |
 | **Publish a version** | its maintainers | Published right away (others: reviewed). |
 | **Change an extension's entry** | its maintainers | Description, names, icon, categories, homepage or maintainers, right away (others: reviewed). |
 | **Remove an extension or a version** | its maintainers | Right away (anyone else, to report a problem: reviewed). |
@@ -89,9 +94,14 @@ Before proposing one:
    (MIT, BSD, Apache-2.0, MPL-2.0, LGPL, GPL-3.0, AGPL-3.0…).
 3. Extensions run inside the server with full trust: say in its description what it does with users' data.
 
+Web players go through the same forms: the package says which it is (`arcanist-frontend.json` at its root makes
+it a web player, listed in `players`). Build one following
+[docs/developers/frontends.md](https://github.com/linkfast/arcanist/blob/main/docs/developers/frontends.md); it runs
+on the server's address with its users' sessions, so say in its description what it does with them.
+
 Pull requests are still welcome too (with `"official": false`); `python scripts/validate.py --download` checks them.
 The forms and the automation can be tried locally: `ISSUE="$(cat issue.json)" python scripts/submission.py`.
 
 ## License
 
-The catalog (this repository) is under the MIT license. Each extension has its own license.
+The catalog (this repository) is under the MIT license. Each extension and web player has its own license.

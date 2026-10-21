@@ -3,3 +3,6 @@ contact_links:
   - name: Writing an extension
     url: https://github.com/linkfast/arcanist/blob/main/docs/developers/extensions.md
     about: The extension SDK, its manifest and how Arcanist loads it.
+  - name: Writing a web player
+    url: https://github.com/linkfast/arcanist/blob/main/docs/developers/frontends.md
+    about: A web player's manifest, where Arcanist serves it and the API it uses.

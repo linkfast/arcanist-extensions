@@ -1,5 +1,8 @@
 """Turns a submission issue (made with one of the forms in .github/ISSUE_TEMPLATE) into a change of index.json.
 
+Extensions and web players go through the same forms: the package says which it is (arcanist-extension.json or
+arcanist-frontend.json at its root), and so which list of the catalog it goes to.
+
 Run by .github/workflows/submissions.yml with the issue as JSON in ISSUE (never as code). It changes index.json
 (and icons/), then writes:
 - submission-result.md: the comment for the issue (what changed, or what to fix);
@@ -27,7 +30,7 @@ import urllib.request
 import zipfile
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from validate import ID, LICENSE_REF, LOGIN, MAX_ICON, MAX_PACKAGE, OPEN_LICENSES, ROOT, SEMVER, check  # noqa: E402
+from validate import ID, LICENSE_REF, LOGIN, MANIFESTS, MAX_ICON, MAX_PACKAGE, OPEN_LICENSES, ROOT, SEMVER, check  # noqa: E402
 
 INDEX = ROOT / "index.json"
 PACKAGE_URL = re.compile(
@@ -109,7 +112,8 @@ def download(url, limit, what):
 
 
 def package(url):
-    """Downloads a package and reads its manifest. Only releases of public GitHub repositories."""
+    """Downloads a package and reads its manifest (an extension's or a web player's). Only releases of public GitHub
+    repositories."""
     match = PACKAGE_URL.match(url)
     if not match:
         raise Problem("**Package URL** must be a `.zip` attached to a GitHub release: "
@@ -117,19 +121,26 @@ def package(url):
     data, _ = download(url, MAX_PACKAGE, "package")
     try:
         with zipfile.ZipFile(io.BytesIO(data)) as archive:
-            manifest = json.loads(archive.read("arcanist-extension.json"))
+            names = set(archive.namelist())
+            kind = next((k for k, file in MANIFESTS.items() if file in names), None)
+            if kind is None:
+                raise KeyError("manifest")
+            manifest_file = MANIFESTS[kind]
+            manifest = json.loads(archive.read(manifest_file))
     except (zipfile.BadZipFile, KeyError, json.JSONDecodeError, UnicodeDecodeError) as error:
-        raise Problem("The package is not a zip with `arcanist-extension.json` at its root.") from error
+        raise Problem("The package is not a zip with `arcanist-extension.json` (an extension) or "
+                      "`arcanist-frontend.json` (a web player) at its root.") from error
     if not isinstance(manifest, dict):
-        raise Problem("`arcanist-extension.json` is not an object.")
-    for key in ("id", "name", "version", "assembly"):
+        raise Problem(f"`{manifest_file}` is not an object.")
+    for key in ("id", "name", "version") + (("assembly",) if kind == "extensions" else ()):
         if not isinstance(manifest.get(key), str) or not manifest[key].strip():
-            raise Problem(f"`arcanist-extension.json` has no `{key}`.")
+            raise Problem(f"`{manifest_file}` has no `{key}`.")
     if not ID.match(manifest["id"]):
         raise Problem(f"The id `{manifest['id']}` must be 2-64 lowercase letters, digits and dashes.")
     if not SEMVER.match(manifest["version"]):
         raise Problem(f"The version `{manifest['version']}` is not a semantic version (1.2.3 or 1.2.3-beta.1).")
     return {
+        "kind": kind,
         "manifest": manifest,
         "homepage": f"https://github.com/{match['owner']}/{match['repo']}",
         "release": {"version": manifest["version"], "url": url, "sha256": hashlib.sha256(data).hexdigest(), "size": len(data)},
@@ -212,23 +223,29 @@ def may_manage(entry, login):
 
 # ---- The requests ----------------------------------------------------------------------------------------------
 
+def what(kind):
+    return "web player" if kind == "players" else "extension"
+
+
 def find(index, extension_id):
-    for entry in index["extensions"]:
-        if entry["id"] == extension_id:
-            return entry
-    raise Problem(f"There is no extension `{extension_id}` in the catalog.")
+    """An entry by its id, in whichever list it is; and that list's name."""
+    for kind in MANIFESTS:
+        for entry in index.get(kind, []):
+            if entry["id"] == extension_id:
+                return entry, kind
+    raise Problem(f"There is no extension or web player `{extension_id}` in the catalog.")
 
 
 def new_extension(index, fields, login):
     found = package(field(fields, "Package URL", required=True, limit=500))
-    manifest, release = found["manifest"], found["release"]
+    manifest, release, kind = found["manifest"], found["release"], found["kind"]
     extension_id = manifest["id"]
-    if any(e["id"] == extension_id for e in index["extensions"]):
+    if any(e["id"] == extension_id for k in MANIFESTS for e in index.get(k, [])):
         raise Problem(f"`{extension_id}` is already in the catalog: to publish a new version, use **Publish a version**.")
     model = pricing(field(fields, "Pricing", required=True, limit=20))
     license_id = manifest.get("license")
     if model == "open-source" and license_id not in OPEN_LICENSES:
-        raise Problem(f"An open source extension needs an open source `license` in its manifest (one of: "
+        raise Problem(f"An open source {what(kind)} needs an open source `license` in its manifest (one of: "
                       f"{', '.join(sorted(OPEN_LICENSES))}); it has {license_id or 'none'}.")
     if license_id not in OPEN_LICENSES and not LICENSE_REF.match(str(license_id or "")):
         raise Problem("The manifest's `license` must be an SPDX id, or `LicenseRef-<name>` for a license of your own.")
@@ -259,23 +276,25 @@ def new_extension(index, fields, login):
         entry["categories"] = categories(value)
     if value := field(fields, "Pricing page", limit=500):
         entry["pricingUrl"] = pricing_url(value)
-    index["extensions"].append(entry)
-    index["extensions"].sort(key=lambda e: e["id"])
+    index.setdefault(kind, []).append(entry)
+    index[kind].sort(key=lambda e: e["id"])
     return extension_id, f"Add {entry['name']} ({extension_id}) {release['version']}", False, [
+        f"A new {what(kind)}.",
         f"Adds **{entry['name']}** (`{extension_id}`) {release['version']}, by {entry['author']}, maintained by @{login}.",
         f"- Package: {release['url']} ({release['size']:,} bytes, SHA-256 `{release['sha256']}`)",
         f"- {next(k for k, v in PRICING_LABELS.items() if v == model)}, license {license_id}; repository: {found['homepage']}",
         "",
-        "A maintainer of the catalog reviews it (the source, what it does on the server) and merges the pull request.",
+        "A maintainer of the catalog reviews it (the source, what it does with the server and its users' data) and "
+        "merges the pull request.",
     ]
 
 
 def new_version(index, fields, login):
-    entry = find(index, field(fields, "Extension id", required=True, limit=64))
+    entry, kind = find(index, field(fields, "Extension id", required=True, limit=64))
     found = package(field(fields, "Package URL", required=True, limit=500))
     manifest, release = found["manifest"], found["release"]
-    if manifest["id"] != entry["id"]:
-        raise Problem(f"The package is the extension `{manifest['id']}`, not `{entry['id']}`.")
+    if manifest["id"] != entry["id"] or found["kind"] != kind:
+        raise Problem(f"The package is the {what(found['kind'])} `{manifest['id']}`, not the {what(kind)} `{entry['id']}`.")
     if any(r["version"] == release["version"] for r in entry["releases"]):
         raise Problem(f"Version {release['version']} is already listed: publish the package with a new version.")
     if minimum := min_server(fields):
@@ -290,7 +309,7 @@ def new_version(index, fields, login):
 
 
 def update(index, fields, login):
-    entry = find(index, field(fields, "Extension id", required=True, limit=64))
+    entry, _ = find(index, field(fields, "Extension id", required=True, limit=64))
     changes = []
     if value := field(fields, "Description", limit=500):
         entry["description"] = value
@@ -328,7 +347,7 @@ def update(index, fields, login):
 
 
 def remove(index, fields, login):
-    entry = find(index, field(fields, "Extension id", required=True, limit=64))
+    entry, kind = find(index, field(fields, "Extension id", required=True, limit=64))
     reason = field(fields, "Reason", required=True)
     version = field(fields, "Version", limit=64)
     allowed = may_manage(entry, login)
@@ -336,11 +355,11 @@ def remove(index, fields, login):
         if not any(r["version"] == version for r in entry["releases"]):
             raise Problem(f"{entry['name']} has no version {version} in the catalog.")
         if len(entry["releases"]) == 1:
-            raise Problem(f"{version} is its only version: leave **Version** empty to remove the whole extension.")
+            raise Problem(f"{version} is its only version: leave **Version** empty to remove the whole {what(kind)}.")
         entry["releases"] = [r for r in entry["releases"] if r["version"] != version]
         return entry["id"], f"Remove {entry['name']} {version}", allowed, [
             f"Removes version {version} of **{entry['name']}**.", "", f"> {reason}"]
-    index["extensions"].remove(entry)
+    index[kind].remove(entry)
     if entry.get("icon"):
         (ROOT / entry["icon"]).unlink(missing_ok=True)
     return entry["id"], f"Remove {entry['name']}", allowed, [

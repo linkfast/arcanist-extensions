@@ -13,7 +13,7 @@ body:
     id: extension
     attributes:
       label: Extension id
-      description: The `id` in its `arcanist-extension.json`.
+      description: The `id` in its `arcanist-extension.json` (or `arcanist-frontend.json`, for a web player).
       placeholder: my-extension
     validations:
       required: true
