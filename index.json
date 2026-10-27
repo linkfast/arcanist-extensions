@@ -26,6 +26,13 @@
       ],
       "releases": [
         {
+          "version": "0.5.0-alpha.1",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.5.0-alpha.1/arcanist-youtube-0.5.0-alpha.1.zip",
+          "sha256": "4b6b00f60347956bede21dfb4d4b75048b3bcc5d30a4ec1b7fa007acd4dce875",
+          "size": 154005,
+          "minServerVersion": "0.1.0-alpha.11"
+        },
+        {
           "version": "0.4.0-alpha.1",
           "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.4.0-alpha.1/arcanist-youtube-0.4.0-alpha.1.zip",
           "sha256": "224ba465cc959b50618df97bf78b03c69a850c1141ca4a84903a9d7053fab5b8",
