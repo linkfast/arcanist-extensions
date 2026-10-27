@@ -7,9 +7,9 @@
       "names": {
         "es": "Audio de YouTube"
       },
-      "description": "Brings the audio of YouTube videos, playlists, channels and YouTube Music albums into your libraries, with yt-dlp.",
+      "description": "Brings the audio of YouTube videos, playlists, channels and YouTube Music albums into your libraries, with yt-dlp; and music videos, also for songs you already have, up to 4K.",
       "descriptions": {
-        "es": "Trae a tus bibliotecas el audio de vídeos, listas, canales y álbumes de YouTube y YouTube Music, con yt-dlp."
+        "es": "Trae a tus bibliotecas el audio de vídeos, listas, canales y álbumes de YouTube y YouTube Music, con yt-dlp; y videoclips, también de canciones que ya tienes, hasta 4K."
       },
       "author": "gchiappe",
       "homepage": "https://github.com/gchiappe/arcanist-youtube",
@@ -25,6 +25,13 @@
         "youtube"
       ],
       "releases": [
+        {
+          "version": "0.6.0-alpha.1",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.6.0-alpha.1/arcanist-youtube-0.6.0-alpha.1.zip",
+          "sha256": "121a4a6ee9279539bd978df2052dd13ed2a3787a31449474582fe8395d1f95be",
+          "size": 158127,
+          "minServerVersion": "0.1.0-alpha.11"
+        },
         {
           "version": "0.5.0-alpha.1",
           "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.5.0-alpha.1/arcanist-youtube-0.5.0-alpha.1.zip",
