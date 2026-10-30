@@ -82,9 +82,9 @@
       "names": {
         "es": "Sincronizar letras"
       },
-      "description": "Works out the timing of plain lyrics on your server, from the song itself: the voice is separated from the music and recognized with Whisper, then matched to the words.",
+      "description": "Works out the timing of plain lyrics on your server, from the song itself: the voice is separated from the music and recognized with Whisper, then matched to the words. Also music videos with audio of their own (live, other edits).",
       "descriptions": {
-        "es": "Calcula en tu servidor los tiempos de las letras que no los tienen, a partir de la propia canción: separa la voz de la música, la reconoce con Whisper y la empareja con la letra."
+        "es": "Calcula en tu servidor los tiempos de las letras que no los tienen, a partir de la propia canción: separa la voz de la música, la reconoce con Whisper y la empareja con la letra. También de videoclips con audio propio (en vivo, otras ediciones)."
       },
       "author": "LinkFast S.A.",
       "homepage": "https://github.com/linkfast/arcanist-lyrics-sync",
@@ -96,6 +96,13 @@
         "lyrics"
       ],
       "releases": [
+        {
+          "version": "0.2.0-alpha.1",
+          "url": "https://github.com/linkfast/arcanist-lyrics-sync/releases/download/v0.2.0-alpha.1/arcanist-lyrics-sync-0.2.0-alpha.1.zip",
+          "sha256": "ac9dbb2443e6fa3121af6fbb76f09a04e1eb95a7207e9fff286396b5e16baaee",
+          "size": 303780,
+          "minServerVersion": "0.1.0-alpha.16"
+        },
         {
           "version": "0.1.0-alpha.1",
           "url": "https://github.com/linkfast/arcanist-lyrics-sync/releases/download/v0.1.0-alpha.1/arcanist-lyrics-sync-0.1.0-alpha.1.zip",
