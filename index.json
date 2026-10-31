@@ -120,5 +120,38 @@
       ]
     }
   ],
-  "players": []
+  "players": [
+    {
+      "id": "ultimate-web-player",
+      "name": "Ultimate Web Player",
+      "names": {
+        "es": "Ultimate Web Player"
+      },
+      "description": "LinkFast's Ultimate player for your Arcanist library: browse, search, playlists, StarTracks, plays and the apps of your extensions.",
+      "descriptions": {
+        "es": "El reproductor de Ultimate para tu biblioteca de Arcanist: explora, busca, listas, StarTracks, reproducciones y las apps de tus extensiones."
+      },
+      "author": "LinkFast S.A. (linkfast.io)",
+      "homepage": "https://ultimatemusic.app",
+      "license": "LicenseRef-LinkFast-Standard-License",
+      "icon": "icons/ultimate-web-player.png",
+      "official": true,
+      "pricing": "free",
+      "maintainers": [
+        "gchiappe"
+      ],
+      "categories": [
+        "player"
+      ],
+      "releases": [
+        {
+          "version": "0.1.0-rc.9",
+          "url": "https://resources.linkfast.io/arcanist-players/ultimate-web-player/0.1.0-rc.9/ultimate-web-player-0.1.0-rc.9.zip",
+          "sha256": "28afd9ceed68f4a783940a748f65a7d95db1bc11850c1e33e90e1f48f46dc78b",
+          "size": 769542,
+          "minServerVersion": "0.1.0-alpha.10"
+        }
+      ]
+    }
+  ]
 }
