@@ -178,6 +178,13 @@
       ],
       "releases": [
         {
+          "version": "0.1.0-rc.13",
+          "url": "https://resources.linkfast.io/arcanist-players/ultimate-web-player/0.1.0-rc.13/ultimate-web-player-0.1.0-rc.13.zip",
+          "sha256": "d696622f4ad7ee8a75f1dddee1bf1dbb1bbe68646e461b5ced02e456aef7ed47",
+          "size": 870094,
+          "minServerVersion": "0.1.0-alpha.10"
+        },
+        {
           "version": "0.1.0-rc.12",
           "url": "https://resources.linkfast.io/arcanist-players/ultimate-web-player/0.1.0-rc.12/ultimate-web-player-0.1.0-rc.12.zip",
           "sha256": "ce45d699e1085e5d49da849a2bbb7072d88eef4638c1c1a9a761fc9cb01cf58d",
