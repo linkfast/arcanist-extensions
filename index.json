@@ -118,6 +118,39 @@
           "minServerVersion": "0.1.0-alpha.9"
         }
       ]
+    },
+    {
+      "id": "ultimate-cloud-plus",
+      "name": "Ultimate Cloud Plus",
+      "names": {
+        "es": "Ultimate Cloud Plus"
+      },
+      "description": "The Cloud plan's features: libraries synced with Ultimate Cloud, uploads to users' own Ultimate Cloud, Cloud Drop's uploads, backups on Ultimate Cloud, S3 libraries, wish lists synced with the account and the seamless P2P connection with the account's apps.",
+      "descriptions": {
+        "es": "Las funciones del plan Cloud: bibliotecas sincronizadas con Ultimate Cloud, subidas a la Ultimate Cloud de cada usuario y de Cloud Drop, copias de seguridad en Ultimate Cloud, bibliotecas en S3, listas de deseos con la cuenta y la conexión P2P con sus apps."
+      },
+      "author": "LinkFast S.A.",
+      "homepage": "https://linkfast.io",
+      "license": "LicenseRef-LinkFast-Proprietary",
+      "icon": "icons/ultimate-cloud-plus.svg",
+      "official": true,
+      "pricing": "paid",
+      "pricingUrl": "https://linkfast.io",
+      "maintainers": [
+        "gchiappe"
+      ],
+      "categories": [
+        "cloud"
+      ],
+      "releases": [
+        {
+          "version": "0.1.0-alpha.1",
+          "url": "https://resources.linkfast.io/arcanist-extensions/ultimate-cloud-plus/0.1.0-alpha.1/ultimate-cloud-plus-0.1.0-alpha.1.zip",
+          "sha256": "9ba33b3b1d3d8eebaa5ce3252be865b208d39ceffca1e52ba771771d6f89affe",
+          "size": 278434,
+          "minServerVersion": "0.1.0-alpha.18"
+        }
+      ]
     }
   ],
   "players": [
