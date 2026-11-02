@@ -190,27 +190,6 @@
           "sha256": "d696622f4ad7ee8a75f1dddee1bf1dbb1bbe68646e461b5ced02e456aef7ed47",
           "size": 870094,
           "minServerVersion": "0.1.0-alpha.10"
-        },
-        {
-          "version": "0.1.0-rc.11",
-          "url": "https://resources.linkfast.io/arcanist-players/ultimate-web-player/0.1.0-rc.11/ultimate-web-player-0.1.0-rc.11.zip",
-          "sha256": "249834302b278c6ffcc8bf9c987883ee29ad2fe128ed60c53410c5a420918e7e",
-          "size": 856845,
-          "minServerVersion": "0.1.0-alpha.10"
-        },
-        {
-          "version": "0.1.0-rc.10",
-          "url": "https://resources.linkfast.io/arcanist-players/ultimate-web-player/0.1.0-rc.10/ultimate-web-player-0.1.0-rc.10.zip",
-          "sha256": "c5bc93eb6a8c9fb4e64ecee2e3945ad3038ad15b7c8bf64cdc37518e094a6a25",
-          "size": 797534,
-          "minServerVersion": "0.1.0-alpha.10"
-        },
-        {
-          "version": "0.1.0-rc.9",
-          "url": "https://resources.linkfast.io/arcanist-players/ultimate-web-player/0.1.0-rc.9/ultimate-web-player-0.1.0-rc.9.zip",
-          "sha256": "28afd9ceed68f4a783940a748f65a7d95db1bc11850c1e33e90e1f48f46dc78b",
-          "size": 769542,
-          "minServerVersion": "0.1.0-alpha.10"
         }
       ]
     }
