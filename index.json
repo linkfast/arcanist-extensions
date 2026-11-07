@@ -104,6 +104,13 @@
       ],
       "releases": [
         {
+          "version": "0.4.0-alpha.1",
+          "url": "https://github.com/linkfast/arcanist-lyrics-sync/releases/download/v0.4.0-alpha.1/arcanist-lyrics-sync-0.4.0-alpha.1.zip",
+          "sha256": "4d605e11f4088d15bc4fdc8d6f3f97134d285bf61bf93443ceeb8024393959f3",
+          "size": 311656,
+          "minServerVersion": "0.1.0-alpha.16"
+        },
+        {
           "version": "0.3.0-alpha.1",
           "url": "https://github.com/linkfast/arcanist-lyrics-sync/releases/download/v0.3.0-alpha.1/arcanist-lyrics-sync-0.3.0-alpha.1.zip",
           "sha256": "1ad5900c8cd2fcccc3fd26ecdab9da8cf1dd564976f523168cd296d3d1aaf19d",
