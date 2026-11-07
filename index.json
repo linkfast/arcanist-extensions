@@ -2,85 +2,36 @@
   "format": 1,
   "extensions": [
     {
-      "id": "youtube",
-      "name": "YouTube Audio",
-      "names": {
-        "es": "Audio de YouTube"
-      },
-      "description": "Brings the audio of YouTube videos, playlists, channels and YouTube Music albums into your libraries, with yt-dlp; and music videos, also for songs you already have, up to 4K.",
-      "descriptions": {
-        "es": "Trae a tus bibliotecas el audio de vídeos, listas, canales y álbumes de YouTube y YouTube Music, con yt-dlp; y videoclips, también de canciones que ya tienes, hasta 4K."
-      },
-      "author": "gchiappe",
-      "homepage": "https://github.com/gchiappe/arcanist-youtube",
+      "id": "lyrics-languages",
+      "name": "Lyrics Languages",
+      "description": "Shows how lyrics in scripts many cannot read are pronounced (Japanese in romaji with furigana, Chinese in pinyin, Korean and other scripts in the Latin alphabet), and translates lyrics on request with your LLM or a local model.",
+      "author": "LinkFast S.A.",
+      "homepage": "https://github.com/linkfast/arcanist-lyrics-languages",
       "license": "AGPL-3.0-or-later",
-      "icon": "icons/youtube.svg",
       "official": false,
       "pricing": "open-source",
       "maintainers": [
         "gchiappe"
       ],
-      "categories": [
-        "import",
-        "youtube"
-      ],
       "releases": [
         {
-          "version": "0.8.0-alpha.1",
-          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.8.0-alpha.1/arcanist-youtube-0.8.0-alpha.1.zip",
-          "sha256": "4b191d44a6082ca278d0c06961b4ebbeaf70fe66f83915c8ced0b1692b61e66f",
-          "size": 222783,
-          "minServerVersion": "0.1.0-alpha.11"
-        },
-        {
-          "version": "0.7.1-alpha.1",
-          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.7.1-alpha.1/arcanist-youtube-0.7.1-alpha.1.zip",
-          "sha256": "d07a19855ed1c68ffd972b5f987bdfe888a3404ee9bc89a42525edc34ce579f2",
-          "size": 170732,
-          "minServerVersion": "0.1.0-alpha.11"
-        },
-        {
-          "version": "0.7.0-alpha.1",
-          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.7.0-alpha.1/arcanist-youtube-0.7.0-alpha.1.zip",
-          "sha256": "88a1e166300c7b85b4de6bb30a3f196e820f318861bfa32bdac020ce0a04a396",
-          "size": 170397,
-          "minServerVersion": "0.1.0-alpha.11"
-        },
-        {
-          "version": "0.6.0-alpha.1",
-          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.6.0-alpha.1/arcanist-youtube-0.6.0-alpha.1.zip",
-          "sha256": "121a4a6ee9279539bd978df2052dd13ed2a3787a31449474582fe8395d1f95be",
-          "size": 158127,
-          "minServerVersion": "0.1.0-alpha.11"
-        },
-        {
-          "version": "0.5.0-alpha.1",
-          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.5.0-alpha.1/arcanist-youtube-0.5.0-alpha.1.zip",
-          "sha256": "4b6b00f60347956bede21dfb4d4b75048b3bcc5d30a4ec1b7fa007acd4dce875",
-          "size": 154005,
-          "minServerVersion": "0.1.0-alpha.11"
-        },
-        {
-          "version": "0.4.0-alpha.1",
-          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.4.0-alpha.1/arcanist-youtube-0.4.0-alpha.1.zip",
-          "sha256": "224ba465cc959b50618df97bf78b03c69a850c1141ca4a84903a9d7053fab5b8",
-          "size": 144402,
-          "minServerVersion": "0.1.0-alpha.8"
-        },
-        {
-          "version": "0.3.0-alpha.1",
-          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.3.0-alpha.1/arcanist-youtube-0.3.0-alpha.1.zip",
-          "sha256": "43826925aaa1045c993e8987acd54a3ded77b06e8ecf68c67c84db16ce260a39",
-          "size": 143891,
-          "minServerVersion": "0.1.0-alpha.2"
-        },
-        {
-          "version": "0.2.0-alpha.2",
-          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.2.0-alpha.2/arcanist-youtube-0.2.0-alpha.2.zip",
-          "sha256": "589d75254b560d57bf5c4dfb6abdd56311c386a8ce91dde3f0f67fa38095cac5",
-          "size": 137964,
-          "minServerVersion": "0.1.0-alpha.2"
+          "version": "0.1.0-alpha.1",
+          "url": "https://github.com/linkfast/arcanist-lyrics-languages/releases/download/v0.1.0-alpha.1/arcanist-lyrics-languages-0.1.0-alpha.1.zip",
+          "sha256": "0b78bd5eed421ceab3f26e4f0cef7299fbe6ff99e99949d660fdd37f06d1677a",
+          "size": 7846103,
+          "minServerVersion": "0.1.0-alpha.25"
         }
+      ],
+      "names": {
+        "es": "Idiomas de las letras"
+      },
+      "descriptions": {
+        "es": "Muestra cómo se pronuncian las letras en escrituras que muchos no leen (japonés en romaji con furigana, chino en pinyin, coreano y otras escrituras en alfabeto latino) y las traduce a pedido con tu LLM o un modelo local."
+      },
+      "icon": "icons/lyrics-languages.svg",
+      "categories": [
+        "lyrics",
+        "languages"
       ]
     },
     {
@@ -163,6 +114,88 @@
           "sha256": "9ba33b3b1d3d8eebaa5ce3252be865b208d39ceffca1e52ba771771d6f89affe",
           "size": 278434,
           "minServerVersion": "0.1.0-alpha.18"
+        }
+      ]
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube Audio",
+      "names": {
+        "es": "Audio de YouTube"
+      },
+      "description": "Brings the audio of YouTube videos, playlists, channels and YouTube Music albums into your libraries, with yt-dlp; and music videos, also for songs you already have, up to 4K.",
+      "descriptions": {
+        "es": "Trae a tus bibliotecas el audio de vídeos, listas, canales y álbumes de YouTube y YouTube Music, con yt-dlp; y videoclips, también de canciones que ya tienes, hasta 4K."
+      },
+      "author": "gchiappe",
+      "homepage": "https://github.com/gchiappe/arcanist-youtube",
+      "license": "AGPL-3.0-or-later",
+      "icon": "icons/youtube.svg",
+      "official": false,
+      "pricing": "open-source",
+      "maintainers": [
+        "gchiappe"
+      ],
+      "categories": [
+        "import",
+        "youtube"
+      ],
+      "releases": [
+        {
+          "version": "0.8.0-alpha.1",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.8.0-alpha.1/arcanist-youtube-0.8.0-alpha.1.zip",
+          "sha256": "4b191d44a6082ca278d0c06961b4ebbeaf70fe66f83915c8ced0b1692b61e66f",
+          "size": 222783,
+          "minServerVersion": "0.1.0-alpha.11"
+        },
+        {
+          "version": "0.7.1-alpha.1",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.7.1-alpha.1/arcanist-youtube-0.7.1-alpha.1.zip",
+          "sha256": "d07a19855ed1c68ffd972b5f987bdfe888a3404ee9bc89a42525edc34ce579f2",
+          "size": 170732,
+          "minServerVersion": "0.1.0-alpha.11"
+        },
+        {
+          "version": "0.7.0-alpha.1",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.7.0-alpha.1/arcanist-youtube-0.7.0-alpha.1.zip",
+          "sha256": "88a1e166300c7b85b4de6bb30a3f196e820f318861bfa32bdac020ce0a04a396",
+          "size": 170397,
+          "minServerVersion": "0.1.0-alpha.11"
+        },
+        {
+          "version": "0.6.0-alpha.1",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.6.0-alpha.1/arcanist-youtube-0.6.0-alpha.1.zip",
+          "sha256": "121a4a6ee9279539bd978df2052dd13ed2a3787a31449474582fe8395d1f95be",
+          "size": 158127,
+          "minServerVersion": "0.1.0-alpha.11"
+        },
+        {
+          "version": "0.5.0-alpha.1",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.5.0-alpha.1/arcanist-youtube-0.5.0-alpha.1.zip",
+          "sha256": "4b6b00f60347956bede21dfb4d4b75048b3bcc5d30a4ec1b7fa007acd4dce875",
+          "size": 154005,
+          "minServerVersion": "0.1.0-alpha.11"
+        },
+        {
+          "version": "0.4.0-alpha.1",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.4.0-alpha.1/arcanist-youtube-0.4.0-alpha.1.zip",
+          "sha256": "224ba465cc959b50618df97bf78b03c69a850c1141ca4a84903a9d7053fab5b8",
+          "size": 144402,
+          "minServerVersion": "0.1.0-alpha.8"
+        },
+        {
+          "version": "0.3.0-alpha.1",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.3.0-alpha.1/arcanist-youtube-0.3.0-alpha.1.zip",
+          "sha256": "43826925aaa1045c993e8987acd54a3ded77b06e8ecf68c67c84db16ce260a39",
+          "size": 143891,
+          "minServerVersion": "0.1.0-alpha.2"
+        },
+        {
+          "version": "0.2.0-alpha.2",
+          "url": "https://github.com/gchiappe/arcanist-youtube/releases/download/v0.2.0-alpha.2/arcanist-youtube-0.2.0-alpha.2.zip",
+          "sha256": "589d75254b560d57bf5c4dfb6abdd56311c386a8ce91dde3f0f67fa38095cac5",
+          "size": 137964,
+          "minServerVersion": "0.1.0-alpha.2"
         }
       ]
     }
