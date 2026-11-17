@@ -109,6 +109,13 @@
       ],
       "releases": [
         {
+          "version": "0.1.0-alpha.2",
+          "url": "https://resources.linkfast.io/arcanist-extensions/ultimate-cloud-plus/0.1.0-alpha.2/ultimate-cloud-plus-0.1.0-alpha.2.zip",
+          "sha256": "34b6db83cd4efa349f6b8ef85c21c50dc05d0d3779d08ba2c44ecc06bd314562",
+          "size": 279490,
+          "minServerVersion": "0.1.0-alpha.18"
+        },
+        {
           "version": "0.1.0-alpha.1",
           "url": "https://resources.linkfast.io/arcanist-extensions/ultimate-cloud-plus/0.1.0-alpha.1/ultimate-cloud-plus-0.1.0-alpha.1.zip",
           "sha256": "9ba33b3b1d3d8eebaa5ce3252be865b208d39ceffca1e52ba771771d6f89affe",
